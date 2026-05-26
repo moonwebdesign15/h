@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="my">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Game</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Padauk:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Padauk', 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ff758c, #ff7eb3, #a18cd1, #84fab0);
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+            animation: fade 0.5s ease;
+        }
+
+        @keyframes fade {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            padding: 25px;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .title {
+            text-align: center;
+            color: white;
+            font-size: 35px;
+            font-weight: 700;
+            margin-bottom: 25px;
+        }
+
+        .photos {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .box img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            border-radius: 15px;
+            display: block;
+        }
+
+        /* ONLY 3.JPG SMALLER */
+
+        .small-img {
+            object-fit: contain !important;
+            background: white;
+            padding: 5px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 12px;
+            padding: 12px;
+            border: none;
+            border-radius: 40px;
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        .question {
+            text-align: center;
+            color: white;
+            font-size: 24px;
+            margin-top: 25px;
+            font-weight: 600;
+        }
+
+        .message {
+            text-align: center;
+            color: yellow;
+            margin-top: 15px;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .finish {
+            text-align: center;
+            color: white;
+        }
+
+        .finish h1 {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+
+        .finish p {
+            font-size: 22px;
+            line-height: 1.8;
+        }
+
+        .restart {
+            margin-top: 25px;
+            width: auto;
+            padding: 14px 35px;
+        }
+
+        @media(max-width:768px) {
+
+            .photos {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .box img {
+                height: 160px;
+            }
+
+            .title {
+                font-size: 24px;
+            }
+
+            .question {
+                font-size: 18px;
+            }
+
+            button {
+                font-size: 13px;
+                padding: 10px;
+            }
+
+            .card {
+                padding: 15px;
+            }
+
+            .finish h1 {
+                font-size: 36px;
+            }
+
+            .finish p {
+                font-size: 18px;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- PAGE 1 -->
+
+        <div class="page active" id="page1">
+
+            <div class="card">
+
+                <div class="title">
+                    အဖြေမှန်ကို ရွေးပါ
+                </div>
+
+                <div class="photos">
+
+                    <div class="box">
+                        <img src="1.jpg">
+
+                        <button onclick="wrong('msg1')">
+                            နှိပ်ပါ
+                        </button>
+                    </div>
+
+                    <div class="box">
+                        <img src="2.jpg">
+
+                        <button onclick="nextPage(2)">
+                            နှိပ်ပါ
+                        </button>
+                    </div>
+
+                </div>
+
+                <div class="question">
+                    အရံလူကိုရွေးပါ
+                </div>
+
+                <div class="message" id="msg1"></div>
+
+            </div>
+
+        </div>
+
+        <!-- PAGE 2 -->
+
+        <div class="page" id="page2">
+
+            <div class="card">
+
+                <div class="title">
+                    အဖြေမှန်ကို ရွေးပါ
+                </div>
+
+                <div class="photos">
+
+                    <div class="box">
+
+                        <!-- ONLY THIS IMAGE SMALLER -->
+
+                        <img src="3.jpg" class="small-img">
+
+                        <button onclick="wrong('msg2')">
+                            နှိပ်ပါ
+                        </button>
+                    </div>
+
+                    <div class="box">
+                        <img src="4.jpg">
+
+                        <button onclick="nextPage(3)">
+                            နှိပ်ပါ
+                        </button>
+                    </div>
+
+                </div>
+
+                <div class="question">
+                    ဂျိုပေါက်နေသောသတ္တဝါကိုရွေးပါ
+                </div>
+
+                <div class="message" id="msg2"></div>
+
+            </div>
+
+        </div>
+
+        <!-- PAGE 3 -->
+
+        <div class="page" id="page3">
+
+            <div class="card">
+
+                <div class="title">
+                    အဖြေမှန်ကို ရွေးပါ
+                </div>
+
+                <div class="photos">
+
+                    <div class="box">
+                        <img src="5.jpg">
+
+                        <button onclick="nextPage(4)">
+                            နှိပ်ပါ
+                        </button>
+                    </div>
+
+                    <div class="box">
+                        <img src="6.jpg">
+
+                        <button onclick="wrong('msg3')">
+                            နှိပ်ပါ
+                        </button>
+                    </div>
+
+                </div>
+
+                <div class="question">
+                    ခြေများသောသတ္တဝါကိုရွေးပါ
+                </div>
+
+                <div class="message" id="msg3"></div>
+
+            </div>
+
+        </div>
+
+        <!-- PAGE 4 -->
+
+        <div class="page" id="page4">
+
+            <div class="card">
+
+                <div class="title">
+                    အဖြေမှန်ကို ရွေးပါ
+                </div>
+
+                <div class="photos">
+
+                    <div class="box">
+                        <img src="7.jpg">
+
+                        <button onclick="wrong('msg4')">
+                            နှိပ်ပါ
+                        </button>
+                    </div>
+
+                    <div class="box">
+                        <img src="8.jpg">
+
+                        <button onclick="nextPage(5)">
+                            နှိပ်ပါ
+                        </button>
+                    </div>
+
+                </div>
+
+                <div class="question">
+                    ပေါင်းစပ်လို့မရတဲ့အရာနှစ်ခုကိုရွေးပါ
+                </div>
+
+                <div class="message" id="msg4"></div>
+
+            </div>
+
+        </div>
+
+        <!-- PAGE 5 -->
+
+        <div class="page" id="page5">
+
+            <div class="card finish">
+
+                <h1>✉️ အမှာစာ ✉️</h1>
+
+                <p>
+                    မချစ်မှန်းသိရက်နဲ့ ရှေ့ဆက်တိုးမိတာလည်းတို့အမှားပါ။
+                    မဖြစ်နိုင်မှန်သိရက်နဲ့ ချစ်မိတာလည်းတို့အမှားပါ။
+                    ရေစက်သာပါပြီး ဖူးစာမပါခဲ့တဲ့တို့နှစ်ယောက်ရဲ့
+                    ရင်နာစရာအဖြစ်ပေါ့ကွာ။
+                    <br><br>
+                    ဘာပဲဖြစ်ဖြစ်ပါကွာ
+                    မင်းနောက်လူရင်မှာပျော်နိုင်ပါစေလို့
+                    ဆုတောင်းပေးလိုက်ပါတယ်။
+                </p>
+
+                <button class="restart" onclick="restartQuiz()">
+                    Restart
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        function nextPage(number) {
+
+            let pages = document.querySelectorAll('.page');
+
+            pages.forEach(function (page) {
+                page.classList.remove('active');
+            });
+
+            document.getElementById('page' + number).classList.add('active');
+        }
+
+        function wrong(id) {
+
+            document.getElementById(id).innerHTML = "❌ အဖြေမှားနေပါတယ်";
+        }
+
+        function restartQuiz() {
+
+            let pages = document.querySelectorAll('.page');
+
+            pages.forEach(function (page) {
+                page.classList.remove('active');
+            });
+
+            document.getElementById('page1').classList.add('active');
+
+            let messages = document.querySelectorAll('.message');
+
+            messages.forEach(function (msg) {
+                msg.innerHTML = "";
+            });
+
+        }
+
+    </script>
+
+</body>
+
+</html>
